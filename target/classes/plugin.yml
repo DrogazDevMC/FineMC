@@ -1,0 +1,4 @@
+name: FineMC
+version: '1.0-SNAPSHOT'
+main: nl.drogaz.finemc.Main
+api-version: 1.19
