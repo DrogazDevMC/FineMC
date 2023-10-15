@@ -6,7 +6,7 @@ import nl.drogaz.finemc.modules.General.GeneralModule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.sql.SQLException;
 
@@ -20,10 +20,25 @@ public class Chat implements Listener {
     }
 
     @EventHandler
-    public void onChat(PlayerChatEvent e) throws SQLException {
+    public void onChat(AsyncPlayerChatEvent e) throws SQLException {
         Player p = e.getPlayer();
+        String tier = database.getData(p, "tier");
+        String rank = rankColor(database.getData(p, "rank"));
 
-        e.setFormat(ChatUtils.format("&8[&bTier " + database.getData(p, "tier") + "&8] &8[&7" + database.getData(p, "rank") + "&8] &7" + e.getPlayer().getName() + " &8» &f" + e.getMessage()));
+        e.setFormat(ChatUtils.format(tier + " &8| " + rank + " &7" + e.getPlayer().getName() + "&7: &7") + e.getMessage());
+    }
+
+    public String rankColor(String rank) {
+        if (rank.equals("Warden")) {
+            rank = "#ed3300ᴡᴀʀᴅᴇɴ";
+        } if (rank.equals("Keeper")) {
+            rank = "#003bdeᴋᴇᴇᴘᴇʀ";
+        } if (rank.equals("Guard")) {
+            rank = "#396dfaɢᴜᴀʀᴅ";
+        } if (rank.equals("Prisoner")) {
+            rank = "#ff6e2bᴘʀɪsᴏɴᴇʀ";
+        }
+        return rank;
     }
 
 }

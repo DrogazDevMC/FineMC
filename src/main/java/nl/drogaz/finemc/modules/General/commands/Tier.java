@@ -11,36 +11,35 @@ import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 
-@CommandAlias("setrole|role")
+@CommandAlias("tier|settier")
 @CommandPermission("finemc.staff")
-public class Role extends BaseCommand {
+public class Tier extends BaseCommand {
 
     private final DB database;
 
-    public Role(DB database, GeneralModule generalModule) {
+    public Tier(DB database, GeneralModule generalModule) {
         this.database = database;
     }
 
-    //    parameters Player, Role
     @Default
-    @CommandCompletion("@players Guard|Prisoner|Warden|Keeper")
+    @CommandCompletion("@players 俰|俱|俲|俳|俴")
     public void onCommand(Player p, String[] args) throws SQLException {
         if (args.length != 2) return;
 
         Player target = p.getServer().getPlayer(args[0]);
-        String role = args[1];
+        String tier = args[1];
 
         if (target == null) {
             p.sendMessage("Player not found!");
             return;
         }
 
-        if (!(role.equals("Prisoner") || role.equals("Guard") || role.equals("Warden") || role.equals("Keeper"))) {
-            p.sendMessage("Role not found!");
+        if (!(tier.equals("俰") || tier.equals("俱") || tier.equals("俲") || tier.equals("俳") || tier.equals("俴"))) {
+            p.sendMessage("Tier not found!");
             return;
         }
 
-        database.setData(target, "rank", role);
-        p.sendMessage("Set " + target.getName() + "'s role to " + role);
+        database.setData(target, "tier", tier);
+        p.sendMessage("Set " + target.getName() + "'s tier to " + tier);
     }
 }

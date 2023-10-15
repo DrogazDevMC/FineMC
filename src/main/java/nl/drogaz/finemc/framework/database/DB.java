@@ -37,7 +37,7 @@ public class DB {
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS players ("
                     + "uuid TEXT PRIMARY KEY,"
-                    + "tier TEXT DEFAULT 'I',"
+                    + "tier TEXT DEFAULT '俰',"
                     + "shards INTEGER DEFAULT 0,"
                     + "rank TEXT DEFAULT 'Prisoner'"
                     + ")");
@@ -61,7 +61,7 @@ public class DB {
         //this should error if the player already exists
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO players (uuid, tier, shards, rank) VALUES (?, ?, ?, ?)")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
-            preparedStatement.setString(2, "I");
+            preparedStatement.setString(2, "俰");
             preparedStatement.setInt(3, 0);
             preparedStatement.setString(4, "Prisoner");
             preparedStatement.executeUpdate();

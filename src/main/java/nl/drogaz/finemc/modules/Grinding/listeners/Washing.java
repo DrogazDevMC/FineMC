@@ -2,7 +2,7 @@ package nl.drogaz.finemc.modules.Grinding.listeners;
 
 import nl.drogaz.finemc.framework.chat.ChatUtils;
 import nl.drogaz.finemc.framework.items.ItemBuilder;
-import nl.drogaz.finemc.modules.General.GeneralModule;
+import nl.drogaz.finemc.modules.General.items.grinding.WAI;
 import nl.drogaz.finemc.modules.Grinding.GrindingModule;
 import nl.drogaz.finemc.modules.Grinding.menus.WashMenu;
 import org.bukkit.Material;
@@ -14,12 +14,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
+
 public class Washing implements Listener {
 
     public Washing(GrindingModule grindingModule) {
     }
 
-    ItemStack dirtyClothes = new ItemBuilder(Material.LEATHER).setName(ChatUtils.format("&fSmerige Kleren")).toItemStack();
 
     @EventHandler
     public void onWash(PlayerInteractEvent e) {
@@ -37,9 +38,11 @@ public class Washing implements Listener {
         if (!(e.getAction()).equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (e.getHand().equals(EquipmentSlot.HAND)) return;
         if (e.getClickedBlock().getType() == Material.LIME_GLAZED_TERRACOTTA) {
+
             Player p = e.getPlayer();
-            p.getInventory().addItem(dirtyClothes);
-            p.sendMessage("You got dirty clothes!");
+            p.getInventory().addItem(WAI.dc(new Random().nextInt(4) + 1));
+            ChatUtils.send(p, "&7Je hebt smerige kleren uit de wasmand gepakt!");
+
         }
     }
 }

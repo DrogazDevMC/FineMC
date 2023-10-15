@@ -18,8 +18,13 @@ public class InventoryListener implements Listener {
         if (!(inventoryHolder instanceof GUI)) return;
         GUI gui = (GUI) inventoryHolder;
 
+        int clickedSlot = event.getSlot();
+        if (clickedSlot >= 0 && clickedSlot < gui.getSize()) {
+            gui.handleClickAction(event);
+            return;
+        }
+
         event.setCancelled(true);
-        gui.handleClickAction(event);
     }
 
     @EventHandler

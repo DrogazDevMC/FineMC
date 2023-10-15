@@ -1,10 +1,12 @@
 package nl.drogaz.finemc.modules.Grinding.menus;
 
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import nl.drogaz.finemc.framework.chat.ChatUtils;
 import nl.drogaz.finemc.framework.gui.GUI;
 import nl.drogaz.finemc.framework.items.ItemBuilder;
 import nl.drogaz.finemc.framework.items.ItemRemover;
-import nl.drogaz.finemc.framework.items.NBTEditor;
+import nl.drogaz.finemc.modules.General.items.grinding.WAI;
+import nl.drogaz.finemc.modules.Grinding.listeners.Washing;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,10 +25,10 @@ public class WashMenu extends GUI {
 
     @Override
     protected void setContents() {
-//        for (int i = 0; i < 27; i++) {
-//            ItemStack leeg = new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName(" ").toItemStack();
-//            inventory.setItem(i, leeg);
-//        }
+        for (int i = 0; i < 27; i++) {
+            ItemStack leeg = new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+            inventory.setItem(i, leeg);
+        }
 
         ItemStack washerClick = new ItemBuilder(Material.WATER_BUCKET).setName(ChatUtils.format("&fKlik hier om je kleren te wassen!")).toItemStack();
         inventory.setItem(13, washerClick);
@@ -34,23 +36,27 @@ public class WashMenu extends GUI {
 
     @Override
     protected void handleClickAction(InventoryClickEvent e) {
+
+        Player p = (Player) e.getWhoClicked();
+
         e.setCancelled(true);
-////        e.setCancelled(true);
-//        if (e.getSlot() == 13) {
-//            ItemStack dirtyClothes = new ItemBuilder(Material.LEATHER).setName(ChatUtils.format("&fSmerige Kleren")).toItemStack();
-//            dirtyClothes  = NBTEditor.set(dirtyClothes, "dirty_clothes", "FineMC-PRISON");
-//
-//            if (player.getInventory().contains(dirtyClothes)) {
-////               remove one dirty clothes
-//                ItemRemover.removeNamedItems(player.getInventory(), Material.LEATHER, 1, "dirty_clothes", "FineMC-PRISON");
-//                ItemStack cleanClothes = new ItemBuilder(Material.LEATHER).setName(ChatUtils.format("&fSchone Kleren")).toItemStack();
-//                cleanClothes  = NBTEditor.set(dirtyClothes, "clean_clothes", "FineMC-PRISON");
-//                player.getInventory().addItem(cleanClothes);
-//                player.sendMessage(ChatUtils.format("&fJe kleren zijn nu schoon!"));
-//            } else {
-//                player.sendMessage(ChatUtils.format("&fJe hebt geen smerige kleren!"));
-//            }
-//        }
+        if (e.getSlot() == 13) {
+
+            if (player.getInventory().containsAtLeast(WAI.dc_I(), 1)) {
+                int amount = 0;
+                for (ItemStack item : player.getInventory().getContents()) {
+                    if (item != null && item.getType() == Material.LEATHER && NBTEditor.contains(item, "dirty_clothes", "finemc")) {
+                        amount += item.getAmount();
+                    }
+                }
+                ItemRemover.removeNamedItems(player.getInventory(), Material.LEATHER, amount, "dirty_clothes", "finemc");
+//                player.getInventory().addItem(WashingItems.clean_clothes(amount));
+                p.closeInventory();
+                ChatUtils.send(p, "&7Je hebt &a" + amount + " &7smerige kleren gewassen!");
+            } else {
+                ChatUtils.send(p, "&7Je hebt geen smerige kleren!");
+            }
+        }
     }
 
     @Override
