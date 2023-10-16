@@ -5,6 +5,7 @@ import nl.drogaz.finemc.framework.database.DB;
 import nl.drogaz.finemc.modules.General.GeneralModule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -19,7 +20,7 @@ public class Chat implements Listener {
         this.generalModule = generalModule;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent e) throws SQLException {
         Player p = e.getPlayer();
         String tier = database.getData(p, "tier");
