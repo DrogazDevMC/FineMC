@@ -43,19 +43,24 @@ public class WashMenu extends GUI {
         if (e.getSlot() == 13) {
 
             if (player.getInventory().containsAtLeast(WAI.dc_I(), 1)) {
-                int amount = 0;
+                int count = 0;
+
                 for (ItemStack item : player.getInventory().getContents()) {
-                    if (item != null && item.getType() == Material.LEATHER && NBTEditor.contains(item, "dirty_clothes", "finemc")) {
-                        amount += item.getAmount();
+                    if (item != null && item.isSimilar(WAI.dc_I())) {
+                        // Check if the item has an NBT tag for "dirty_clothes"
+                        if (NBTEditor.getString(item, "dirty_clothes") != null) {
+                            count += item.getAmount();
+                        }
                     }
                 }
-                ItemRemover.removeNamedItems(player.getInventory(), Material.LEATHER, amount, "dirty_clothes", "finemc");
-//                player.getInventory().addItem(WashingItems.clean_clothes(amount));
+
+                ItemRemover.removeNamedItems(player.getInventory(), Material.LEATHER, count, "dirty_clothes", "finemc");
                 p.closeInventory();
-                ChatUtils.send(p, "&7Je hebt &a" + amount + " &7smerige kleren gewassen!");
+                ChatUtils.send(p, "&7Je hebt &a" + count + " &7smerige kleren gewassen!");
             } else {
                 ChatUtils.send(p, "&7Je hebt geen smerige kleren!");
             }
+
         }
     }
 

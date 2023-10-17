@@ -25,8 +25,9 @@ public class Chat implements Listener {
         Player p = e.getPlayer();
         String tier = database.getData(p, "tier");
         String rank = rankColor(database.getData(p, "rank"));
+        String message = e.getMessage().replace("%", "%%");
 
-        e.setFormat(ChatUtils.format(tier + " &8| " + rank + " &7" + e.getPlayer().getName() + "&7: &7") + e.getMessage());
+        e.setFormat(ChatUtils.format(tier + " &8| " + rank + " &7" + e.getPlayer().getName() + "&7: &7") + message);
     }
 
     public String rankColor(String rank) {
