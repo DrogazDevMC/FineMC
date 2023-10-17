@@ -29,4 +29,24 @@ public class ItemRemover {
             }
         }
     }
+
+    public static void removeItem(Inventory inventory, ItemStack itemStack, int amount) {
+        if (amount <= 0) return;
+        int size = inventory.getSize();
+        for (int slot = 0; slot < size; slot++) {
+            ItemStack is = inventory.getItem(slot);
+            if (is == null) continue;
+            if (itemStack.isSimilar(is)) {
+                int newAmount = is.getAmount() - amount;
+                if (newAmount > 0) {
+                    is.setAmount(newAmount);
+                    break;
+                } else {
+                    inventory.clear(slot);
+                    amount = -newAmount;
+                    if (amount == 0) break;
+                }
+            }
+        }
+    }
 }
