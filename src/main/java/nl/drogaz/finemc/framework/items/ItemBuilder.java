@@ -5,8 +5,6 @@ import nl.drogaz.finemc.framework.chat.ChatUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -90,6 +88,15 @@ public class ItemBuilder {
 	 */
 	public ItemBuilder setDurability(short dur) {
 		is.setDurability(dur);
+		return this;
+	}
+
+	public int getAmount() {
+		return is.getAmount();
+	}
+
+	public ItemBuilder setAmount(int amount) {
+		is.setAmount(amount);
 		return this;
 	}
 
