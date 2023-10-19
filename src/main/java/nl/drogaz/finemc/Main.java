@@ -7,6 +7,8 @@ import nl.drogaz.finemc.framework.modules.AbstractModule;
 import nl.drogaz.finemc.modules.Cellblock.CellblockModule;
 import nl.drogaz.finemc.modules.General.GeneralModule;
 import nl.drogaz.finemc.modules.Grinding.GrindingModule;
+import nl.fenixnetwerk.modules.menu.MenuListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public final class Main extends JavaPlugin {
         );
 
         this.modules.forEach(AbstractModule::onEnable);
+
+        Bukkit.getPluginManager().registerEvents(new MenuListener(this), this);
     }
 
     @Override

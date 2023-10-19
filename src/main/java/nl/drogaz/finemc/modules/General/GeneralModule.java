@@ -9,6 +9,8 @@ import nl.drogaz.finemc.modules.General.commands.Tier;
 import nl.drogaz.finemc.modules.General.listeners.Chat;
 import nl.drogaz.finemc.modules.General.listeners.Combat;
 import nl.drogaz.finemc.modules.General.listeners.FirstJoin;
+import nl.fenixnetwerk.modules.menu.MenuListener;
+import org.bukkit.Bukkit;
 
 public class GeneralModule extends AbstractModule {
 

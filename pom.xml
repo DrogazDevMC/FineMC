@@ -108,9 +108,29 @@
             <version>7.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.12</version>
+        </dependency>
+
+        <!-- Modules -->
+        <dependency>
+            <groupId>nl.fenixnetwerk.modules</groupId>
+            <artifactId>scoreboard</artifactId>
+            <version>DEV</version>
+        </dependency>
+
         <dependency>
             <groupId>nl.fenixnetwerk.modules</groupId>
             <artifactId>menu</artifactId>
+            <version>DEV</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.fenixnetwerk.modules</groupId>
+            <artifactId>utils</artifactId>
             <version>DEV</version>
         </dependency>
     </dependencies>
