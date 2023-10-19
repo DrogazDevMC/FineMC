@@ -2,3 +2,4 @@ name: FineMC
 version: '${project.version}'
 main: nl.drogaz.finemc.Main
 api-version: 1.19
+depend: [WorldGuard]

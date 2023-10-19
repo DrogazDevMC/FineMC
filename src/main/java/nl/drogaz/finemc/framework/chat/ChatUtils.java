@@ -64,4 +64,8 @@ public class ChatUtils {
 
         return returnMessage.toString();
     }
+
+    public static String UUIDtoName(String uuid) {
+        return Bukkit.getOfflinePlayer(java.util.UUID.fromString(uuid)).getName();
+    }
 }

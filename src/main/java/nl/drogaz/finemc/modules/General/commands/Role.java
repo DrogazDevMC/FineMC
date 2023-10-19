@@ -40,7 +40,7 @@ public class Role extends BaseCommand {
             return;
         }
 
-        database.setData(target, "rank", role);
+        database.setData(target, "players" ,"rank", role);
         p.sendMessage("Set " + target.getName() + "'s role to " + role);
     }
 }

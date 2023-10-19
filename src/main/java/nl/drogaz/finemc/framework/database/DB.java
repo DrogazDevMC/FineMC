@@ -1,9 +1,11 @@
 package nl.drogaz.finemc.framework.database;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.*;
+import java.util.*;
 
 public class DB {
     private JavaPlugin plugin;
@@ -42,6 +44,19 @@ public class DB {
                     + "rank TEXT DEFAULT 'Prisoner'"
                     + ")");
             statement.close();
+
+            // Create the "cells" table with inside and outside as strings
+            statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS cells ("
+                    + "uuid TEXT,"
+                    + "name TEXT PRIMARY KEY,"
+                    + "price INTEGER,"
+                    + "hired_time TEXT,"
+                    + "end_time TEXT,"
+                    + "inside TEXT,"
+                    + "outside TEXT"
+                    + ")");
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,6 +83,19 @@ public class DB {
         }
     }
 
+    public void addCell(UUID uuid, String name, int price, Location inside, Location outside) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO cells (uuid, name, price, hired_time, end_time, inside, outside) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+            preparedStatement.setString(1, String.valueOf(uuid));
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(3, price);
+            preparedStatement.setString(4, String.valueOf(System.currentTimeMillis()));
+            preparedStatement.setString(5, String.valueOf(System.currentTimeMillis() + 604800000));
+            preparedStatement.setString(6, String.valueOf(inside));
+            preparedStatement.setString(7, String.valueOf(outside));
+            preparedStatement.executeUpdate();
+        }
+    }
+
     public boolean playerExists(Player player) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
@@ -84,8 +112,30 @@ public class DB {
         }
     }
 
-    public void setData(Player player, String column, String value) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET " + column + " = ? WHERE uuid = ?")) {
+    public List<Map<String, Object>> getAllData(String table) throws SQLException {
+        List<Map<String, Object>> data = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + table)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            while (resultSet.next()) {
+                Map<String, Object> row = new HashMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = metaData.getColumnName(i);
+                    Object columnValue = resultSet.getObject(i);
+                    row.put(columnName, columnValue);
+                }
+                data.add(row);
+            }
+        }
+
+        return data;
+    }
+
+    public void setData(Player player, String table, String column, String value) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + table + " SET " + column + " = ? WHERE uuid = ?")) {
             preparedStatement.setString(1, value);
             preparedStatement.setString(2, player.getUniqueId().toString());
             preparedStatement.executeUpdate();

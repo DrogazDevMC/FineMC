@@ -39,7 +39,7 @@ public class Tier extends BaseCommand {
             return;
         }
 
-        database.setData(target, "tier", tier);
+        database.setData(target, "players" ,"tier", tier);
         p.sendMessage("Set " + target.getName() + "'s tier to " + tier);
     }
 }

@@ -4,6 +4,7 @@ import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import nl.drogaz.finemc.framework.database.DB;
 import nl.drogaz.finemc.framework.modules.AbstractModule;
+import nl.drogaz.finemc.modules.Cellblock.CellblockModule;
 import nl.drogaz.finemc.modules.General.GeneralModule;
 import nl.drogaz.finemc.modules.Grinding.GrindingModule;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +30,8 @@ public final class Main extends JavaPlugin {
 
         this.initiateModules(
                 new GeneralModule(database),
-                new GrindingModule(database)
+                new GrindingModule(database),
+                new CellblockModule(database)
         );
 
         this.modules.forEach(AbstractModule::onEnable);
