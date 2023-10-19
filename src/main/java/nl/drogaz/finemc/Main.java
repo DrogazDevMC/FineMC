@@ -18,7 +18,7 @@ public final class Main extends JavaPlugin {
 
     @Getter private static Main instance;
     @Getter private PaperCommandManager commandManager;
-    private DB database;
+    @Getter private DB database;
 
     private final List<AbstractModule> modules = new ArrayList<>();
 

@@ -111,7 +111,7 @@ public class Cells extends BaseCommand {
 
         Player p = (Player) s;
 
-        new CellsList(p).open();
+//        new CellsList(p).open();
 
 //        List<Map<String, Object>> cells = database.getAllData("cells");
 //
